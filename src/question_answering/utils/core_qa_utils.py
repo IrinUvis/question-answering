@@ -11,7 +11,7 @@ from datasets import Dataset, concatenate_datasets
 from matplotlib.ticker import MaxNLocator
 
 from question_answering.constants import constants
-from question_answering.paths import extractive_qa_paths, generative_qa_paths
+from question_answering.paths import extractive_qa_paths
 
 
 def load_datasets_from_csv(dataset_path: Path, filenames=None):
