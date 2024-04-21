@@ -1,6 +1,6 @@
 # Project structure
 
-The project concerns both generative and extractive QA. The work on these is separated into two directories: [extractive-qa](./../extractive-qa) & [generative-qa](./../generative-qa). 
+The project concerns extractive QA. The work on these is separated into two directories: [extractive-qa](./../extractive-qa) & [generative-qa](./../generative-qa). 
 Both of these directories share similar structure, with each one consisting of:
 * ***data*** directory holding data referenced in the notebooks
 * ***figures*** directory with figures regarding general data analysis etc.
