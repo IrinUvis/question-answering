@@ -1,5 +1,4 @@
 import json
-import shutil
 from collections import Counter
 from pathlib import Path
 
@@ -9,9 +8,6 @@ import pandas as pd
 import tensorflow as tf
 from datasets import Dataset, concatenate_datasets
 from matplotlib.ticker import MaxNLocator
-
-from question_answering.constants import constants
-from question_answering.paths import extractive_qa_paths
 
 
 def load_datasets_from_csv(dataset_path: Path, filenames=None):
@@ -105,21 +101,6 @@ def convert_to_tf_dataset(
     )
 
 
-def prepare_tf_dataset(
-    model,
-    hf_dataset: Dataset,
-    collator,
-    batch_size: int,
-    shuffle: bool = False,
-):
-    return model.prepare_tf_dataset(
-        dataset=hf_dataset,
-        collate_fn=collator,
-        shuffle=shuffle,
-        batch_size=batch_size,
-    )
-
-
 def get_best_epoch(
     history: dict,
     metric: str = "val_loss",
@@ -135,36 +116,6 @@ def get_best_epoch(
                 return int(np.argmax(history[metric]) + 1)
             case _:
                 raise Exception("Wrong metric evaluator passed!")
-
-
-def get_best_model_from_checkpoints(
-    trained_model: tf.keras.Model,
-    history: dict,
-    model_name: str,
-    metric: str = "val_loss",
-    remove_checkpoints: bool = True,
-    model_type: str = "extractive",
-):
-    best_epoch = int(np.argmin(history.history[metric]) + 1)
-    if model_type == "extractive":
-        best_model_checkpoints_path = (
-            extractive_qa_paths.training_checkpoints_dir / model_name
-        )
-    else:
-        best_model_checkpoints_path = (
-            generative_qa_paths.training_checkpoints_dir / model_name
-        )
-    best_model_weights_path = (
-        best_model_checkpoints_path
-        / constants.checkpoint_filename_template.format(epoch=best_epoch)
-    )
-    best_model = trained_model
-    best_model.load_weights(best_model_weights_path)
-
-    if remove_checkpoints:
-        shutil.rmtree(best_model_checkpoints_path)
-
-    return best_model, best_epoch
 
 
 def plot_and_save_fig_from_history(

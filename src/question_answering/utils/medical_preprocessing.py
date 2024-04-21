@@ -40,12 +40,12 @@ def span_dataset(
 
 
 def preprocess_medical_training_dataset(
-        dataset: Dataset,
-        tokenizer,
-        max_length: int,
-        stride: int,
-        batched: bool = True,
-        remove_columns: list[str] = None,
+    dataset: Dataset,
+    tokenizer,
+    max_length: int,
+    stride: int,
+    batched: bool = True,
+    remove_columns: list[str] = None,
 ):
     def preprocess_samples(samples):
         questions = [q.strip() for q in samples["question"]]
@@ -88,8 +88,8 @@ def preprocess_medical_training_dataset(
 
             # If the answer is not fully inside the context, label is (0, 0)
             if (
-                    offset[context_start][0] > start_char
-                    or offset[context_end][1] < end_char
+                offset[context_start][0] > start_char
+                or offset[context_end][1] < end_char
             ):
                 start_positions.append(0)
                 end_positions.append(0)
@@ -200,11 +200,11 @@ def preprocess_medical_test_dataset(
 
 
 def preprocess_medical_training_dataset_no_stride(
-        dataset: Dataset,
-        tokenizer,
-        max_length: int,
-        batched: bool = True,
-        remove_columns: list[str] = None,
+    dataset: Dataset,
+    tokenizer,
+    max_length: int,
+    batched: bool = True,
+    remove_columns: list[str] = None,
 ):
     def preprocess_samples(samples):
         questions = [q.strip() for q in samples["question"]]
@@ -242,8 +242,8 @@ def preprocess_medical_training_dataset_no_stride(
 
             # If the answer is not fully inside the context, label is (0, 0)
             if (
-                    offset[context_start][0] > start_char
-                    or offset[context_end][1] < end_char
+                offset[context_start][0] > start_char
+                or offset[context_end][1] < end_char
             ):
                 start_positions.append(0)
                 end_positions.append(0)
@@ -269,11 +269,11 @@ def preprocess_medical_training_dataset_no_stride(
 
 
 def preprocess_medical_test_dataset_no_stride(
-        dataset: Dataset,
-        tokenizer,
-        max_length: int,
-        batched: bool = True,
-        remove_columns: list[str] = None,
+    dataset: Dataset,
+    tokenizer,
+    max_length: int,
+    batched: bool = True,
+    remove_columns: list[str] = None,
 ):
     def preprocess_samples(samples):
         questions = [q.strip() for q in samples["question"]]

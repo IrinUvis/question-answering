@@ -8,10 +8,10 @@ from .__helpers import (
 
 
 def calculate_pure_metrics_stats(
-        start_actual: list[int],
-        end_actual: list[int],
-        start_preds: list[int],
-        end_preds: list[int],
+    start_actual: list[int],
+    end_actual: list[int],
+    start_preds: list[int],
+    end_preds: list[int],
 ):
     length = ensure_same_sizes(start_actual, end_actual, start_preds, end_preds)
 
@@ -56,18 +56,19 @@ def calculate_pure_metrics_stats(
         "count_of_no_answer_predictions": count_of_no_answer_predictions,
         "count_of_start_after_end_predictions": count_of_start_after_end_predictions,
         "count_of_good_no_answer_predictions": count_of_good_no_answer_predictions,
-        "count_of_bad_no_answer_predictions": count_of_no_answer_predictions - count_of_good_no_answer_predictions,
+        "count_of_bad_no_answer_predictions": count_of_no_answer_predictions
+        - count_of_good_no_answer_predictions,
         "count_of_bad_predictions": count_of_bad_predictions,
         "count_of_good_predictions": count_of_good_predictions,
-        "total_predictions": length
+        "total_predictions": length,
     }
 
 
 def calculate_pure_accuracies(
-        start_actual: list[int],
-        end_actual: list[int],
-        start_preds: list[int],
-        end_preds: list[int],
+    start_actual: list[int],
+    end_actual: list[int],
+    start_preds: list[int],
+    end_preds: list[int],
 ):
     length = ensure_same_sizes(start_actual, end_actual, start_preds, end_preds)
 
@@ -101,7 +102,7 @@ def calculate_pure_accuracies(
 
 
 def calculate_pure_qa_metrics(
-        answers: list[str], predicted_texts: list[str], normalize: bool
+    answers: list[str], predicted_texts: list[str], normalize: bool
 ):
     length = ensure_same_sizes(answers, predicted_texts)
     precision_metric = 0.0
@@ -135,7 +136,7 @@ def calculate_pure_qa_metrics(
 
 
 def get_is_correctly_predicted(
-        answers: list[str], predicted_texts: list[str], normalize: bool
+    answers: list[str], predicted_texts: list[str], normalize: bool
 ):
     length = ensure_same_sizes(answers, predicted_texts)
     is_correctly_predicted = []
