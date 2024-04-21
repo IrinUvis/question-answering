@@ -1,4 +1,4 @@
-# File naming notation (NLP Polish contract)
+# File naming notation
 All notebook names must follow this notation:
 
 `
