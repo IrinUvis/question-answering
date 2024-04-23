@@ -1,5 +1,5 @@
 # Question answering
-Repository for purposes of training and researching NLP models for extractive and generative question answering.
+Repository for purposes of training and researching NLP models for extractive question answering.
 
 ## Useful links
 * [Conda environment setup instructions](./documentation/environment_setup.md)
