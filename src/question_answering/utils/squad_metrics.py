@@ -10,10 +10,10 @@ from .__helpers import (
 
 
 def calculate_squad_metrics_stats(
-    start_actual: list[list[int]],
-    end_actual: list[list[int]],
-    start_preds: list[int],
-    end_preds: list[int],
+        start_actual: list[list[int]],
+        end_actual: list[list[int]],
+        start_preds: list[int],
+        end_preds: list[int],
 ):
     length = ensure_same_sizes(start_actual, end_actual, start_preds, end_preds)
 
@@ -48,7 +48,7 @@ def calculate_squad_metrics_stats(
         "count_of_start_after_end_predictions": count_of_start_after_end_predictions,
         "count_of_good_no_answer_predictions": count_of_good_no_answer_predictions,
         "count_of_bad_no_answer_predictions": count_of_no_answer_predictions
-        - count_of_good_no_answer_predictions,
+                                              - count_of_good_no_answer_predictions,
         "count_of_bad_predictions": count_of_bad_predictions,
         "count_of_good_predictions": count_of_good_predictions,
         "total_predictions": length,
@@ -56,10 +56,10 @@ def calculate_squad_metrics_stats(
 
 
 def calculate_squad_accuracies(
-    start_actual: list[list[int]],
-    end_actual: list[list[int]],
-    start_preds: list[int],
-    end_preds: list[int],
+        start_actual: list[list[int]],
+        end_actual: list[list[int]],
+        start_preds: list[int],
+        end_preds: list[int],
 ):
     length = ensure_same_sizes(start_actual, end_actual, start_preds, end_preds)
 
@@ -103,7 +103,7 @@ def calculate_squad_accuracies(
 
 
 def calculate_original_squad_metrics(
-    ids: list[str], answers: list[dict], predicted_texts: list[str]
+        ids: list[str], answers: list[dict], predicted_texts: list[str]
 ) -> dict:
     ensure_same_sizes(ids, answers, predicted_texts)
 
@@ -122,17 +122,24 @@ def calculate_original_squad_metrics(
 
 
 def calculate_squad_qa_metrics(
-    answers: list[list[str]], predicted_texts: list[str], normalize: bool
+        answers: list[list[str]], predicted_texts: list[str], normalize: bool
 ):
     length = ensure_same_sizes(answers, predicted_texts)
     precision_metric = 0.0
     recall_metric = 0.0
     f1_metric = 0.0
     exact_match_metric = 0.0
+    count_of_samples_with_answer = 0
 
     for i in range(length):
         valid_answers = answers[i]
         predicted_text = predicted_texts[i]
+
+        # For samples with no answer we don't calculate these metrics
+        if len(valid_answers) == 0:
+            continue
+
+        count_of_samples_with_answer += 1
 
         precision_metric += __metric_max_over_ground_truths(
             metric_fn=precision_score,
@@ -160,15 +167,15 @@ def calculate_squad_qa_metrics(
         )
 
     return {
-        "precision": precision_metric / length,
-        "recall": recall_metric / length,
-        "f1": f1_metric / length,
-        "exact_match": exact_match_metric / length,
+        "precision": precision_metric / count_of_samples_with_answer,
+        "recall": recall_metric / count_of_samples_with_answer,
+        "f1": f1_metric / count_of_samples_with_answer,
+        "exact_match": exact_match_metric / count_of_samples_with_answer,
     }
 
 
 def get_is_correctly_predicted(
-    answers: list[list[str]], predicted_texts: list[str], normalize: bool
+        answers: list[list[str]], predicted_texts: list[str], normalize: bool
 ):
     length = ensure_same_sizes(answers, predicted_texts)
     is_correctly_predicted = []
@@ -176,6 +183,10 @@ def get_is_correctly_predicted(
     for i in range(length):
         valid_answers = answers[i]
         predicted_text = predicted_texts[i]
+
+        # Ensure correct calculation for samples with no answer
+        if len(valid_answers) == 0:
+            valid_answers.append("")
 
         is_correctly_predicted.append(
             __metric_max_over_ground_truths(
@@ -190,7 +201,7 @@ def get_is_correctly_predicted(
 
 
 def __metric_max_over_ground_truths(
-    metric_fn, prediction, ground_truths, normalize: bool
+        metric_fn, prediction, ground_truths, normalize: bool
 ):
     scores_for_ground_truths = []
     for ground_truth in ground_truths:
