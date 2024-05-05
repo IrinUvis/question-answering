@@ -1,0 +1,56 @@
+{
+    "accuracy": {
+        "end_accuracy": 0.8249001331557922,
+        "full_accuracy": 0.735305307209435,
+        "start_accuracy": 0.8208103481072855
+    },
+    "exact_match": {
+        "01_best_normalized": 0.7577105014191107,
+        "01_best_standard": 0.7342478713339641,
+        "02_best_normalized": 0.7685903500473037,
+        "02_best_standard": 0.7444654683065279,
+        "03_best_normalized": 0.7688741721854304,
+        "03_best_standard": 0.7447492904446547,
+        "05_best_normalized": 0.7688741721854304,
+        "05_best_standard": 0.7447492904446547
+    },
+    "f1": {
+        "01_best_normalized": 0.838479050370068,
+        "01_best_standard": 0.829676538802761,
+        "02_best_normalized": 0.8524223811676018,
+        "02_best_standard": 0.8433700412335012,
+        "03_best_normalized": 0.8526156556246084,
+        "03_best_standard": 0.8435686150595797,
+        "05_best_normalized": 0.8526093484659834,
+        "05_best_standard": 0.8435629386168171
+    },
+    "metric_stats": {
+        "count_of_bad_no_answer_predictions": 0,
+        "count_of_bad_predictions": 2632,
+        "count_of_good_no_answer_predictions": 0,
+        "count_of_good_predictions": 7882,
+        "count_of_no_answer_predictions": 0,
+        "count_of_start_after_end_predictions": 219,
+        "total_predictions": 10514
+    },
+    "precision": {
+        "01_best_normalized": 0.8655704237350644,
+        "01_best_standard": 0.8598937180358295,
+        "02_best_normalized": 0.8804675915600195,
+        "02_best_standard": 0.8746481386509927,
+        "03_best_normalized": 0.8806164855547034,
+        "03_best_standard": 0.8747753973240363,
+        "05_best_normalized": 0.8806131067197256,
+        "05_best_standard": 0.8747753973240363
+    },
+    "recall": {
+        "01_best_normalized": 0.8439736524836317,
+        "01_best_standard": 0.8341237337295334,
+        "02_best_normalized": 0.858614178613916,
+        "02_best_standard": 0.8485006475494463,
+        "03_best_normalized": 0.8587627762829655,
+        "03_best_standard": 0.8486505353191237,
+        "05_best_normalized": 0.8587674138996015,
+        "05_best_standard": 0.8486551729357598
+    }
+}
