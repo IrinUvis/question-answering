@@ -82,3 +82,66 @@ def get_predicted_texts(
             predicted_answers.append("")
 
     return predicted_answers
+
+
+def get_predicted_texts_squad2(
+        start_logits: np.ndarray,
+        end_logits: np.ndarray,
+        features: Dataset,
+        examples: Dataset,
+        n_best: int = 20,
+        max_answer_length: int = 30,
+):
+    example_to_features = defaultdict(list)
+
+    for idx, feature in enumerate(features):
+        example_id = feature["example_id"]
+        example_to_features[example_id].append(idx)
+
+    predicted_answers = []
+    for example in examples:
+        example_id = example["id"]
+        context = example["context"]
+        answers = []
+
+        # Loop through all features associated with that example
+        for feature_index in example_to_features[example_id]:
+            start_logit = start_logits[feature_index]
+            end_logit = end_logits[feature_index]
+            offsets = features[feature_index]["offset_mapping"]
+
+            best_start_indices = np.argsort(start_logit)[-1 : -n_best - 1 : -1].tolist()
+            best_end_indices = np.argsort(end_logit)[-1 : -n_best - 1 : -1].tolist()
+            for start_index in best_start_indices:
+                for end_index in best_end_indices:
+                    if start_index == 0 and end_index == 0:
+                        answer = {
+                            "text": "",
+                            "logit_score": start_logit[start_index] + end_logit[end_index],
+                        }
+                    # Skip answers that are not fully in the context
+                    elif offsets[start_index] is None or offsets[end_index] is None:
+                        continue
+                    # Skip answers with a length that is either < 0 or > max_answer_length
+                    elif (
+                            end_index < start_index
+                            or end_index - start_index + 1 > max_answer_length
+                    ):
+                        continue
+                    else:
+                        answer = {
+                            "text": context[
+                                    offsets[start_index][0] : offsets[end_index][1]
+                                    ],
+                            "logit_score": start_logit[start_index] + end_logit[end_index],
+                        }
+                    answers.append(answer)
+
+        # Select the answer with the best score
+        if len(answers) > 0:
+            best_answer = max(answers, key=lambda x: x["logit_score"])
+            predicted_answers.append(best_answer["text"])
+        else:
+            predicted_answers.append("")
+
+    return predicted_answers

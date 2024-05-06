@@ -110,29 +110,36 @@ def calculate_squad_qa_metrics(
     recall_metric = 0.0
     f1_metric = 0.0
     exact_match_metric = 0.0
+    count_of_samples_with_answer = 0
 
     for i in range(length):
         valid_answers = answers[i]
         predicted_text = predicted_texts[i]
 
-        precision_metric += __metric_max_over_ground_truths(
-            metric_fn=precision_score,
-            prediction=predicted_text,
-            ground_truths=valid_answers,
-            normalize=normalize,
-        )
-        recall_metric += __metric_max_over_ground_truths(
-            metric_fn=recall_score,
-            prediction=predicted_text,
-            ground_truths=valid_answers,
-            normalize=normalize,
-        )
-        f1_metric += __metric_max_over_ground_truths(
-            metric_fn=f1_score,
-            prediction=predicted_text,
-            ground_truths=valid_answers,
-            normalize=normalize,
-        )
+        if len(valid_answers) > 0:
+            count_of_samples_with_answer += 1
+
+            precision_metric += __metric_max_over_ground_truths(
+                metric_fn=precision_score,
+                prediction=predicted_text,
+                ground_truths=valid_answers,
+                normalize=normalize,
+            )
+            recall_metric += __metric_max_over_ground_truths(
+                metric_fn=recall_score,
+                prediction=predicted_text,
+                ground_truths=valid_answers,
+                normalize=normalize,
+            )
+            f1_metric += __metric_max_over_ground_truths(
+                metric_fn=f1_score,
+                prediction=predicted_text,
+                ground_truths=valid_answers,
+                normalize=normalize,
+            )
+        else:
+            valid_answers.append('')
+
         exact_match_metric += __metric_max_over_ground_truths(
             metric_fn=exact_match_score,
             prediction=predicted_text,
@@ -141,9 +148,9 @@ def calculate_squad_qa_metrics(
         )
 
     return {
-        "precision": precision_metric / length,
-        "recall": recall_metric / length,
-        "f1": f1_metric / length,
+        "precision": precision_metric / count_of_samples_with_answer,
+        "recall": recall_metric / count_of_samples_with_answer,
+        "f1": f1_metric / count_of_samples_with_answer,
         "exact_match": exact_match_metric / length,
     }
 
@@ -157,6 +164,10 @@ def get_is_correctly_predicted(
     for i in range(length):
         valid_answers = answers[i]
         predicted_text = predicted_texts[i]
+
+        # Ensure correct calculation for samples with no answer
+        if len(valid_answers) == 0:
+            valid_answers.append("")
 
         is_correctly_predicted.append(
             __metric_max_over_ground_truths(
