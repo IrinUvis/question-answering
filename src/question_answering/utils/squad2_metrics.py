@@ -116,7 +116,7 @@ def calculate_squad_qa_metrics(
         valid_answers = answers[i]
         predicted_text = predicted_texts[i]
 
-        if len(valid_answers) > 0:
+        if len(valid_answers) > 0 and predicted_text != "":
             count_of_samples_with_answer += 1
 
             precision_metric += __metric_max_over_ground_truths(
