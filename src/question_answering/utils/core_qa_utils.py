@@ -73,14 +73,19 @@ def plot_sentence_lengths_histogram(
     labels, values = zip(*sorted_counter)
 
     plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
-    plt.bar(labels, values, color="dimgray")
+    bars = plt.bar(labels, values, color="dimgray")
     plt.title(figure_title)
     plt.xlabel(x_label)
     plt.ylabel(y_label)
 
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2, height, height,
+                 ha='center', va='bottom')
+
     _create_dirs_if_not_exists(figure_path.parent)
 
-    plt.savefig(figure_path)
+    plt.savefig(figure_path, dpi=300)
     plt.show()
 
 
