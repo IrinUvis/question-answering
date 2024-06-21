@@ -2,11 +2,11 @@ from datasets import Dataset
 
 
 def preprocess_squad2_training_dataset_no_stride(
-        dataset: Dataset,
-        tokenizer,
-        max_length: int,
-        batched: bool = True,
-        remove_columns: list[str] = None,
+    dataset: Dataset,
+    tokenizer,
+    max_length: int,
+    batched: bool = True,
+    remove_columns: list[str] = None,
 ):
     def preprocess_samples(samples):
         questions = [q.strip() for q in samples["question"]]
@@ -72,11 +72,11 @@ def preprocess_squad2_training_dataset_no_stride(
 
 
 def preprocess_squad2_test_dataset_no_stride(
-        dataset: Dataset,
-        tokenizer,
-        max_length: int,
-        batched: bool = True,
-        remove_columns: list[str] = None,
+    dataset: Dataset,
+    tokenizer,
+    max_length: int,
+    batched: bool = True,
+    remove_columns: list[str] = None,
 ):
     def preprocess_samples(samples):
         questions = [q.strip() for q in samples["question"]]

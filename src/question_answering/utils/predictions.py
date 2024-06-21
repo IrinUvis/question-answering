@@ -85,12 +85,12 @@ def get_predicted_texts(
 
 
 def get_predicted_texts_squad2(
-        start_logits: np.ndarray,
-        end_logits: np.ndarray,
-        features: Dataset,
-        examples: Dataset,
-        n_best: int = 20,
-        max_answer_length: int = 30,
+    start_logits: np.ndarray,
+    end_logits: np.ndarray,
+    features: Dataset,
+    examples: Dataset,
+    n_best: int = 20,
+    max_answer_length: int = 30,
 ):
     example_to_features = defaultdict(list)
 
@@ -117,23 +117,25 @@ def get_predicted_texts_squad2(
                     if start_index == 0 and end_index == 0:
                         answer = {
                             "text": "",
-                            "logit_score": start_logit[start_index] + end_logit[end_index],
+                            "logit_score": start_logit[start_index]
+                            + end_logit[end_index],
                         }
                     # Skip answers that are not fully in the context
                     elif offsets[start_index] is None or offsets[end_index] is None:
                         continue
                     # Skip answers with a length that is either < 0 or > max_answer_length
                     elif (
-                            end_index < start_index
-                            or end_index - start_index + 1 > max_answer_length
+                        end_index < start_index
+                        or end_index - start_index + 1 > max_answer_length
                     ):
                         continue
                     else:
                         answer = {
                             "text": context[
-                                    offsets[start_index][0] : offsets[end_index][1]
-                                    ],
-                            "logit_score": start_logit[start_index] + end_logit[end_index],
+                                offsets[start_index][0] : offsets[end_index][1]
+                            ],
+                            "logit_score": start_logit[start_index]
+                            + end_logit[end_index],
                         }
                     answers.append(answer)
 

@@ -59,8 +59,9 @@ def plot_sentence_lengths_histogram(
 
     for bar in bars:
         height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2, height, height,
-                 ha='center', va='bottom')
+        plt.text(
+            bar.get_x() + bar.get_width() / 2, height, height, ha="center", va="bottom"
+        )
 
     _create_dirs_if_not_exists(figure_path.parent)
 

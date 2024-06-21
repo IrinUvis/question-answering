@@ -10,10 +10,10 @@ from .__helpers import (
 
 
 def calculate_squad_metrics_stats(
-        start_actual: list[list[int]],
-        end_actual: list[list[int]],
-        start_preds: list[int],
-        end_preds: list[int],
+    start_actual: list[list[int]],
+    end_actual: list[list[int]],
+    start_preds: list[int],
+    end_preds: list[int],
 ):
     length = ensure_same_sizes(start_actual, end_actual, start_preds, end_preds)
 
@@ -48,7 +48,7 @@ def calculate_squad_metrics_stats(
         "count_of_start_after_end_predictions": count_of_start_after_end_predictions,
         "count_of_good_no_answer_predictions": count_of_good_no_answer_predictions,
         "count_of_bad_no_answer_predictions": count_of_no_answer_predictions
-                                              - count_of_good_no_answer_predictions,
+        - count_of_good_no_answer_predictions,
         "count_of_bad_predictions": count_of_bad_predictions,
         "count_of_good_predictions": count_of_good_predictions,
         "total_predictions": length,
@@ -56,10 +56,10 @@ def calculate_squad_metrics_stats(
 
 
 def calculate_squad_accuracies(
-        start_actual: list[list[int]],
-        end_actual: list[list[int]],
-        start_preds: list[int],
-        end_preds: list[int],
+    start_actual: list[list[int]],
+    end_actual: list[list[int]],
+    start_preds: list[int],
+    end_preds: list[int],
 ):
     length = ensure_same_sizes(start_actual, end_actual, start_preds, end_preds)
 
@@ -103,7 +103,7 @@ def calculate_squad_accuracies(
 
 
 def calculate_squad_qa_metrics(
-        answers: list[list[str]], predicted_texts: list[str], normalize: bool
+    answers: list[list[str]], predicted_texts: list[str], normalize: bool
 ):
     length = ensure_same_sizes(answers, predicted_texts)
     precision_metric = 0.0
@@ -149,7 +149,7 @@ def calculate_squad_qa_metrics(
 
 
 def get_is_correctly_predicted(
-        answers: list[list[str]], predicted_texts: list[str], normalize: bool
+    answers: list[list[str]], predicted_texts: list[str], normalize: bool
 ):
     length = ensure_same_sizes(answers, predicted_texts)
     is_correctly_predicted = []
@@ -171,7 +171,7 @@ def get_is_correctly_predicted(
 
 
 def __metric_max_over_ground_truths(
-        metric_fn, prediction, ground_truths, normalize: bool
+    metric_fn, prediction, ground_truths, normalize: bool
 ):
     scores_for_ground_truths = []
     for ground_truth in ground_truths:
