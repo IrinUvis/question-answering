@@ -10,32 +10,11 @@ from datasets import Dataset, concatenate_datasets
 from matplotlib.ticker import MaxNLocator
 
 
-def load_datasets_from_csv(dataset_path: Path, filenames=None):
-    if filenames is None:
-        filenames = ["train.csv", "val.csv", "test.csv"]
-
-    csvs = [pd.read_csv(dataset_path / filename).dropna() for filename in filenames]
-    return csvs
-
-
 def load_datasets_from_json(dataset_path: Path, filenames: list[str]):
     datasets = [
         Dataset.from_json(str(dataset_path / filename)) for filename in filenames
     ]
     return datasets
-
-
-def convert_dataframes_to_datasets(dataframes: list[pd.DataFrame]):
-    return tuple(
-        [
-            Dataset.from_pandas(dataframe, preserve_index=False)
-            for dataframe in dataframes
-        ]
-    )
-
-
-def concatenate_hf_datasets(datasets: list[Dataset]):
-    return concatenate_datasets(datasets)
 
 
 def plot_sentence_lengths_histogram(
