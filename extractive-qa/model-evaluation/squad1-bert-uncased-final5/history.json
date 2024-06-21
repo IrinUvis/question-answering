@@ -1,0 +1,17 @@
+{
+    "end_logits_accuracy": [
+        0.6752548813819885
+    ],
+    "end_logits_loss": [
+        1.171207070350647
+    ],
+    "loss": [
+        2.4292447566986084
+    ],
+    "start_logits_accuracy": [
+        0.640437126159668
+    ],
+    "start_logits_loss": [
+        1.2580335140228271
+    ]
+}

@@ -102,25 +102,6 @@ def calculate_squad_accuracies(
     }
 
 
-def calculate_original_squad_metrics(
-    ids: list[str], answers: list[dict], predicted_texts: list[str]
-) -> dict:
-    ensure_same_sizes(ids, answers, predicted_texts)
-
-    metric = evaluate.load("squad")
-
-    predictions = []
-    references = []
-    for i, example_id in enumerate(ids):
-        predictions.append({"id": example_id, "prediction_text": predicted_texts[i]})
-        references.append({"id": example_id, "answers": answers[i]})
-
-    result = metric.compute(predictions=predictions, references=references)
-    result["exact_match"] = result["exact_match"] / 100
-    result["f1"] = result["f1"] / 100
-    return result
-
-
 def calculate_squad_qa_metrics(
     answers: list[list[str]], predicted_texts: list[str], normalize: bool
 ):
